@@ -25,6 +25,3 @@ class BMICalculator extends StatelessWidget {
     );
   }
 }
-
-//card color
-// Color(0xFF1D1E33)
