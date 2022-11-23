@@ -1,9 +1,17 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-const Color backGroundColor = Color(0xFF1D1E33);
+import 'background_card.dart';
+import 'icon_content.dart';
+
+const Color activeCardColor = Color(0xFF1D1E33);
+const Color inactiveCardColor = Color(0xFF111328);
 const Color bottomButtonColor = Color(0xFFEB1555);
 const double bottomButtonHeight = 80;
+
+enum Gender { male, female }
 
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
@@ -13,9 +21,32 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Color maleCardColor = inactiveCardColor;
+  Color femaleCardColor = inactiveCardColor;
   double heightValue = 160;
   int weightValue = 80;
   int ageValue = 20;
+
+  //1 = male, 2 = female
+  void updateColor(Gender gender) {
+    if (gender == Gender.male) {
+      if (maleCardColor == inactiveCardColor) {
+        maleCardColor = activeCardColor;
+        femaleCardColor = inactiveCardColor;
+      } else {
+        maleCardColor = inactiveCardColor;
+        femaleCardColor = activeCardColor;
+      }
+    } else {
+      if (femaleCardColor == inactiveCardColor) {
+        femaleCardColor = activeCardColor;
+        maleCardColor = inactiveCardColor;
+      } else {
+        femaleCardColor = inactiveCardColor;
+        maleCardColor = activeCardColor;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,26 +61,34 @@ class _InputPageState extends State<InputPage> {
               child: Row(
                 children: [
                   Expanded(
-                    child: BackgroundCard(
-                      color: backGroundColor,
-                      cardChild: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          FaIcon(FontAwesomeIcons.mars),
-                          Text('Male')
-                        ],
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          updateColor(Gender.male);
+                        });
+                      },
+                      child: BackgroundCard(
+                        color: maleCardColor,
+                        cardChild: IconContent(
+                          icon: FontAwesomeIcons.mars,
+                          text: 'MALE',
+                        ),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: BackgroundCard(
-                      color: backGroundColor,
-                      cardChild: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          FaIcon(FontAwesomeIcons.mars),
-                          Text('Male')
-                        ],
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          updateColor(Gender.female);
+                        });
+                      },
+                      child: BackgroundCard(
+                        color: femaleCardColor,
+                        cardChild: IconContent(
+                          icon: FontAwesomeIcons.venus,
+                          text: 'FEMALE',
+                        ),
                       ),
                     ),
                   ),
@@ -58,7 +97,7 @@ class _InputPageState extends State<InputPage> {
             ),
             Expanded(
               child: BackgroundCard(
-                color: backGroundColor,
+                color: activeCardColor,
                 cardChild: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -80,7 +119,7 @@ class _InputPageState extends State<InputPage> {
                 children: [
                   Expanded(
                     child: BackgroundCard(
-                      color: backGroundColor,
+                      color: activeCardColor,
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -113,7 +152,7 @@ class _InputPageState extends State<InputPage> {
                   ),
                   Expanded(
                     child: BackgroundCard(
-                      color: backGroundColor,
+                      color: activeCardColor,
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -152,29 +191,49 @@ class _InputPageState extends State<InputPage> {
               height: bottomButtonHeight,
               width: double.infinity,
               margin: const EdgeInsets.only(top: 15),
+              child: MaterialButton(
+                child: const Text(
+                  'CALCULATE',
+                  style: TextStyle(fontSize: 45),
+                ),
+                onPressed: () => _dialogBuilder(
+                    context, weightValue / pow(heightValue / 100, 2)),
+              ),
             ),
           ],
         ),
       ),
     );
   }
-}
 
-class BackgroundCard extends StatelessWidget {
-  final Color color;
-  final Widget cardChild;
-
-  BackgroundCard({super.key, required this.color, required this.cardChild});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: cardChild,
+  Future<void> _dialogBuilder(BuildContext context, double bmi) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Your BMI',
+            style: TextStyle(
+              fontSize: 50,
+            ),
+          ),
+          content: Text(
+            bmi.round().toString(),
+            style: const TextStyle(fontSize: 25),
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
