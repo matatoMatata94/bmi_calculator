@@ -4,7 +4,8 @@ class BackgroundCard extends StatelessWidget {
   final Color color;
   final Widget cardChild;
 
-  BackgroundCard({super.key, required this.color, required this.cardChild});
+  const BackgroundCard(
+      {super.key, required this.color, required this.cardChild});
 
   @override
   Widget build(BuildContext context) {

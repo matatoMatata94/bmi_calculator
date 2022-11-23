@@ -6,7 +6,7 @@ const iconCardStyle = TextStyle(
 );
 
 class IconContent extends StatelessWidget {
-  IconContent({required this.icon, required this.text});
+  const IconContent({required this.icon, required this.text});
 
   final IconData icon;
   final String text;
