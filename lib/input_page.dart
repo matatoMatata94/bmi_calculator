@@ -4,12 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'background_card.dart';
+import 'constants.dart';
 import 'icon_content.dart';
-
-const Color activeCardColor = Color(0xFF1D1E33);
-const Color inactiveCardColor = Color(0xFF111328);
-const Color bottomButtonColor = Color(0xFFEB1555);
-const double bottomButtonHeight = 80;
 
 enum Gender { male, female }
 
@@ -35,43 +31,40 @@ class _InputPageState extends State<InputPage> {
       ),
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: Row(
                 children: [
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
+                    child: BackgroundCard(
+                      onPress: () {
                         setState(() {
                           selectedGender = Gender.male;
                         });
                       },
-                      child: BackgroundCard(
-                        color: selectedGender == Gender.male
-                            ? activeCardColor
-                            : inactiveCardColor,
-                        cardChild: const IconContent(
-                          icon: FontAwesomeIcons.mars,
-                          text: 'MALE',
-                        ),
+                      color: selectedGender == Gender.male
+                          ? kActiveCardColor
+                          : kInactiveCardColor,
+                      cardChild: const IconContent(
+                        icon: FontAwesomeIcons.mars,
+                        text: 'MALE',
                       ),
                     ),
                   ),
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
+                    child: BackgroundCard(
+                      onPress: () {
                         setState(() {
                           selectedGender = Gender.female;
                         });
                       },
-                      child: BackgroundCard(
-                        color: selectedGender == Gender.female
-                            ? activeCardColor
-                            : inactiveCardColor,
-                        cardChild: const IconContent(
-                          icon: FontAwesomeIcons.venus,
-                          text: 'FEMALE',
-                        ),
+                      color: selectedGender == Gender.female
+                          ? kActiveCardColor
+                          : kInactiveCardColor,
+                      cardChild: const IconContent(
+                        icon: FontAwesomeIcons.venus,
+                        text: 'FEMALE',
                       ),
                     ),
                   ),
@@ -80,12 +73,21 @@ class _InputPageState extends State<InputPage> {
             ),
             Expanded(
               child: BackgroundCard(
-                color: activeCardColor,
+                color: kActiveCardColor,
                 cardChild: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('HEIGHT'),
-                    Text(heightValue.round().toString()),
+                    const Text(
+                      'HEIGHT',
+                      style: kIconCardStyle,
+                    ),
+                    Text(
+                      heightValue.round().toString(),
+                      style: const TextStyle(
+                        fontSize: 50,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
                     Slider(
                         max: 200,
                         min: 120,
@@ -102,12 +104,18 @@ class _InputPageState extends State<InputPage> {
                 children: [
                   Expanded(
                     child: BackgroundCard(
-                      color: activeCardColor,
+                      color: kActiveCardColor,
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('WEIGHT'),
-                          Text(weightValue.toString()),
+                          const Text(
+                            'WEIGHT',
+                            style: kIconCardStyle,
+                          ),
+                          Text(
+                            weightValue.toString(),
+                            style: kNumberStyle,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -135,12 +143,18 @@ class _InputPageState extends State<InputPage> {
                   ),
                   Expanded(
                     child: BackgroundCard(
-                      color: activeCardColor,
+                      color: kActiveCardColor,
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('AGE'),
-                          Text(ageValue.toString()),
+                          const Text(
+                            'AGE',
+                            style: kIconCardStyle,
+                          ),
+                          Text(
+                            ageValue.toString(),
+                            style: kNumberStyle,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -170,8 +184,8 @@ class _InputPageState extends State<InputPage> {
               ),
             ),
             Container(
-              color: bottomButtonColor,
-              height: bottomButtonHeight,
+              color: kBottomButtonColor,
+              height: kBottomButtonHeight,
               width: double.infinity,
               margin: const EdgeInsets.only(top: 15),
               child: MaterialButton(
