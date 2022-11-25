@@ -88,13 +88,24 @@ class _InputPageState extends State<InputPage> {
                         fontWeight: FontWeight.w900,
                       ),
                     ),
-                    Slider(
-                        max: 200,
-                        min: 120,
-                        value: heightValue,
-                        onChanged: (newValue) {
-                          setState(() => heightValue = newValue);
-                        }),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                          inactiveTickMarkColor: const Color(0xFF8D8E98),
+                          activeTrackColor: Colors.white,
+                          thumbColor: const Color(0xFFEB1555),
+                          overlayColor: const Color(0x29EB1555),
+                          thumbShape: const RoundSliderThumbShape(
+                              enabledThumbRadius: 15.0),
+                          overlayShape: const RoundSliderOverlayShape(
+                              overlayRadius: 30.0)),
+                      child: Slider(
+                          max: 200,
+                          min: 120,
+                          value: heightValue,
+                          onChanged: (newValue) {
+                            setState(() => heightValue = newValue);
+                          }),
+                    ),
                   ],
                 ),
               ),
