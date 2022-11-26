@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'background_card.dart';
 import 'constants.dart';
 import 'icon_content.dart';
+import 'round_icon_button.dart';
 
 enum Gender { male, female }
 
@@ -19,9 +20,41 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender? selectedGender;
 
-  double heightValue = 160;
-  int weightValue = 80;
-  int ageValue = 20;
+  double height = 160;
+  int weight = 80;
+  int age = 20;
+
+  //Dialog to show your BMI
+  Future<void> _dialogBuilder(BuildContext context, double bmi) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Your BMI',
+            style: TextStyle(
+              fontSize: 50,
+            ),
+          ),
+          content: Text(
+            bmi.round().toString(),
+            style: const TextStyle(fontSize: 25),
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,13 +114,7 @@ class _InputPageState extends State<InputPage> {
                       'HEIGHT',
                       style: kIconCardStyle,
                     ),
-                    Text(
-                      heightValue.round().toString(),
-                      style: const TextStyle(
-                        fontSize: 50,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
+                    Text(height.round().toString(), style: kNumberStyle),
                     SliderTheme(
                       data: SliderTheme.of(context).copyWith(
                           inactiveTickMarkColor: const Color(0xFF8D8E98),
@@ -101,9 +128,9 @@ class _InputPageState extends State<InputPage> {
                       child: Slider(
                           max: 200,
                           min: 120,
-                          value: heightValue,
+                          value: height,
                           onChanged: (newValue) {
-                            setState(() => heightValue = newValue);
+                            setState(() => height = newValue);
                           }),
                     ),
                   ],
@@ -124,27 +151,30 @@ class _InputPageState extends State<InputPage> {
                             style: kIconCardStyle,
                           ),
                           Text(
-                            weightValue.toString(),
+                            weight.toString(),
                             style: kNumberStyle,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              FloatingActionButton(
-                                child: const Icon(Icons.add),
+                              RoundIconButton(
                                 onPressed: () {
                                   setState(() {
-                                    weightValue++;
+                                    weight--;
                                   });
                                 },
+                                icon: FontAwesomeIcons.minus,
                               ),
-                              FloatingActionButton(
-                                child: const Icon(Icons.remove),
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              RoundIconButton(
                                 onPressed: () {
                                   setState(() {
-                                    weightValue--;
+                                    weight++;
                                   });
                                 },
+                                icon: FontAwesomeIcons.plus,
                               ),
                             ],
                           ),
@@ -163,27 +193,30 @@ class _InputPageState extends State<InputPage> {
                             style: kIconCardStyle,
                           ),
                           Text(
-                            ageValue.toString(),
+                            age.toString(),
                             style: kNumberStyle,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              FloatingActionButton(
-                                child: const Icon(Icons.add),
+                              RoundIconButton(
                                 onPressed: () {
                                   setState(() {
-                                    ageValue++;
+                                    age--;
                                   });
                                 },
+                                icon: FontAwesomeIcons.minus,
                               ),
-                              FloatingActionButton(
-                                child: const Icon(Icons.remove),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              RoundIconButton(
                                 onPressed: () {
                                   setState(() {
-                                    ageValue--;
+                                    age++;
                                   });
                                 },
+                                icon: FontAwesomeIcons.plus,
                               ),
                             ],
                           ),
@@ -204,44 +237,13 @@ class _InputPageState extends State<InputPage> {
                   'CALCULATE',
                   style: TextStyle(fontSize: 45),
                 ),
-                onPressed: () => _dialogBuilder(
-                    context, weightValue / pow(heightValue / 100, 2)),
+                onPressed: () =>
+                    _dialogBuilder(context, weight / pow(height / 100, 2)),
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Future<void> _dialogBuilder(BuildContext context, double bmi) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text(
-            'Your BMI',
-            style: TextStyle(
-              fontSize: 50,
-            ),
-          ),
-          content: Text(
-            bmi.round().toString(),
-            style: const TextStyle(fontSize: 25),
-          ),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
