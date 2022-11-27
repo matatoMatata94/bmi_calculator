@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:bmi_calculator/result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -23,38 +22,6 @@ class _InputPageState extends State<InputPage> {
   double height = 160;
   int weight = 80;
   int age = 20;
-
-  //Dialog to show your BMI
-  Future<void> _dialogBuilder(BuildContext context, double bmi) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text(
-            'Your BMI',
-            style: TextStyle(
-              fontSize: 50,
-            ),
-          ),
-          content: Text(
-            bmi.round().toString(),
-            style: const TextStyle(fontSize: 25),
-          ),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -227,18 +194,22 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            Container(
-              color: kBottomButtonColor,
-              height: kBottomButtonHeight,
-              width: double.infinity,
-              margin: const EdgeInsets.only(top: 15),
-              child: MaterialButton(
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ResultPage()),
+                );
+              },
+              child: Container(
+                color: kBottomButtonColor,
+                height: kBottomButtonHeight,
+                width: double.infinity,
+                margin: const EdgeInsets.only(top: 15),
                 child: const Text(
                   'CALCULATE',
                   style: TextStyle(fontSize: 45),
                 ),
-                onPressed: () =>
-                    _dialogBuilder(context, weight / pow(height / 100, 2)),
               ),
             ),
           ],
