@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'background_card.dart';
+import 'calculate_button.dart';
 import 'constants.dart';
 import 'icon_content.dart';
 import 'round_icon_button.dart';
@@ -194,28 +195,14 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            GestureDetector(
+            CalculateButton(
+              text: 'Calculate',
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const ResultPage()),
                 );
               },
-              child: Container(
-                color: kBottomButtonColor,
-                height: kBottomButtonHeight,
-                width: double.infinity,
-                margin: const EdgeInsets.only(top: 15),
-                child: const Center(
-                  child: Text(
-                    'CALCULATE',
-                    style: TextStyle(
-                      fontSize: 45,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                ),
-              ),
             ),
           ],
         ),
