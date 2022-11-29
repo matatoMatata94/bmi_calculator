@@ -1,12 +1,14 @@
-import 'package:bmi_calculator/result_page.dart';
+import 'dart:math';
+
+import 'package:bmi_calculator/components/round_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'background_card.dart';
-import 'calculate_button.dart';
-import 'constants.dart';
-import 'icon_content.dart';
-import 'round_icon_button.dart';
+import '../components/background_card.dart';
+import '../components/calculate_button.dart';
+import '../components/icon_content.dart';
+import '../constants.dart';
+import 'result_page.dart';
 
 enum Gender { male, female }
 
@@ -196,11 +198,14 @@ class _InputPageState extends State<InputPage> {
               ),
             ),
             CalculateButton(
-              text: 'Calculate',
+              buttonTitle: 'Calculate',
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ResultPage()),
+                  MaterialPageRoute(
+                      builder: (context) => ResultPage(
+                            bmi: (weight / pow(height / 100, 2)).round(),
+                          )),
                 );
               },
             ),

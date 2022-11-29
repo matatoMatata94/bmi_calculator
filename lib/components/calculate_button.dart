@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 class CalculateButton extends StatelessWidget {
-  final String? text;
+  final String? buttonTitle;
   final Function()? onTap;
 
-  const CalculateButton({required this.text, required this.onTap});
+  const CalculateButton({required this.buttonTitle, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class CalculateButton extends StatelessWidget {
         margin: const EdgeInsets.only(top: 15),
         child: Center(
           child: Text(
-            text!,
+            buttonTitle!,
             style: kCalculateButtonStyle,
           ),
         ),
