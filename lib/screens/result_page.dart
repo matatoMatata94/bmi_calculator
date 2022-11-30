@@ -4,25 +4,15 @@ import 'package:bmi_calculator/constants.dart';
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatelessWidget {
-  ResultPage({required this.bmi});
+  ResultPage({
+    required this.bmi,
+    required this.bmiCategory,
+    required this.bmiInterpretation,
+  });
 
-  final int bmi;
-
-  final Map<String, String> weightCategories = {
-    'UNDERWEIGHT': 'You should eat more and exercise',
-    'NORMAL': 'You should keep doing whatever you are doing',
-    'OVERWEIGHT': 'You should eat less and exercise',
-  };
-
-  String checkBMI(int bmi) {
-    if (bmi < 18) {
-      return 'UNDERWEIGHT';
-    } else if (bmi > 25) {
-      return 'OVERWEIGHT';
-    } else {
-      return 'NORMAL';
-    }
-  }
+  final String bmiCategory;
+  final String bmi;
+  final String bmiInterpretation;
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +40,13 @@ class ResultPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      checkBMI(bmi),
+                      bmiCategory,
                       style: kResultTextStyle,
                     ),
                     Text(bmi.toString(), style: kBMITextStyle),
                     Text(
-                      weightCategories[checkBMI(bmi)]!,
-                      style: kExplanationTextStyle,
+                      bmiInterpretation,
+                      style: kInterpretationTextStyle,
                     ),
                   ],
                 ),

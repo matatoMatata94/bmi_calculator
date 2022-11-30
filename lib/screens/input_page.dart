@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:bmi_calculator/calculator_brain.dart';
 import 'package:bmi_calculator/components/round_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,7 +22,7 @@ class _InputPageState extends State<InputPage> {
   Gender? selectedGender;
 
   double height = 160;
-  int weight = 80;
+  double weight = 80;
   int age = 20;
 
   @override
@@ -121,7 +120,7 @@ class _InputPageState extends State<InputPage> {
                             style: kIconCardStyle,
                           ),
                           Text(
-                            weight.toString(),
+                            weight.toStringAsFixed(0),
                             style: kNumberStyle,
                           ),
                           Row(
@@ -200,11 +199,15 @@ class _InputPageState extends State<InputPage> {
             CalculateButton(
               buttonTitle: 'Calculate',
               onTap: () {
+                CalculatorBrain calc =
+                    CalculatorBrain(weight: weight, height: height);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => ResultPage(
-                            bmi: (weight / pow(height / 100, 2)).round(),
+                            bmi: calc.getBMIResult(),
+                            bmiCategory: calc.getBMICategory(),
+                            bmiInterpretation: calc.getBMIInterpretation(),
                           )),
                 );
               },
